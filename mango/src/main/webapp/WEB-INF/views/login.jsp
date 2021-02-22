@@ -17,11 +17,33 @@
 	
 	<div>
 		<form action="/login" method="post">
-			<div><input type="text" name="username" placeholder="아이디 입력" value="microform"></div>
-			<div><input type="password" name="password" placeholder="비밀번호 입력" value="1212"></div>
+			<div><input type="text" name="username" placeholder="아이디 입력"></div>
+			<div><input type="password" name="password" placeholder="비밀번호 입력"></div>
 			<button type="submit">로그인</button>
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		</form>
 	</div>
+	
+	<div>
+		<a href="javascript:;" class="btn_social" data-social="facebook">페이스북 로그인</a>
+		<a href="javascript:;" class="btn_social" data-social="google">구글 로그인</a>
+		<a href="javascript:;" class="btn_social" data-social="kakao">카카오톡 로그인</a>
+		<a href="javascript:;" class="btn_social" data-social="naver">네이버 로그인</a>
+	</div>
+	
+	<div>
+		<a href="/join">회원가입</a>
+	</div>
+
+	<script> 
+		let socials = document.getElementsByClassName('btn_social')
+		
+		for(let social of socials) { 
+			social.addEventListener('click', function(){ 
+				let socialType = this.getAttribute('data-social')
+				location.href="/oauth2/authorization/" + socialType 
+			}) 
+		} 
+	</script>
 </body>
 </html>
