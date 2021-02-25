@@ -20,17 +20,17 @@ spring:
       client:
         registration:
           google:
-            client-id: 본인 google client-id
-            client-secret: 본인 google client-secret
+            client-id: 890619526612-hmagm7jt9l7q4fct97b7u0bjrrnkuhoc.apps.googleusercontent.com
+            client-secret: qLicjAizb4NSwZ34XFEt8_Vx
           
           facebook:
-            client-id: 본인 facebook client-id
-            client-secret: 본인 facebook client-secret
+            client-id: 430401751577188
+            client-secret: e54aadb50ce5d9e33289712a7b7cb1c3
 custom: 
   oauth2: 
     kakao: 
-      client-id: 본인 kakao client-id 
-      client-secret: 본인 kakao client-secret 
+      client-id: 99143cb46e73d1fe659fbf01cd9ac252
+      client-secret: BxrrLCXMPFlZQ4230bOChLMpNsYhSJn4
     naver: 
       client-id: y2q7zvHFZQ7eejC9xoM0
       client-secret: mahnIRdkX4
