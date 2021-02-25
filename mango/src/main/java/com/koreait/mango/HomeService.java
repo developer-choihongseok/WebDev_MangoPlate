@@ -1,10 +1,13 @@
 package com.koreait.mango;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.koreait.mango.model.UserEntity;
+import com.koreait.mango.security.IAuthenticationFacade;
 import com.koreait.mango.security.UserDetailsServiceImpl;
+import com.koreait.mango.security.model.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
 
@@ -12,18 +15,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HomeService {
 	
+	final HomeMapper mapper;
 	final UserDetailsServiceImpl userDetailsService;
-	final PasswordEncoder passEncoder;
 	
-	// Mango 회원가입을 통해서 회원가입을 시키는 역할
-	public int join(UserEntity param) {
-		param.setProvider("mango");
-		
-		// 비밀번호 암호화.
-		String encodePw = passEncoder.encode(param.getPassword());
-		param.setUpw(encodePw);
-		
-		return userDetailsService.join(param);
+	@Autowired
+    private IAuthenticationFacade authenticationFacade;
+	
+	public void home() {
+		Authentication authentication = authenticationFacade.getAuthentication();
+		UserPrincipal user = (UserPrincipal)authentication.getPrincipal();
+		System.out.println("userPk(2) : " + user.getUserPk());
 	}
 	
+	public int mangoJoin(UserEntity p) {		
+		return userDetailsService.join(p);
+	}
+	
+	public UserEntity selUser(UserEntity p) {
+		return mapper.selUser(p);
+	}
 }

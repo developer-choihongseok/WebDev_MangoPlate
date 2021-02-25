@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration	// "설정 파일"을 의미.
 @EnableWebSecurity // Spring Security를 활성화.
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor	// 앞에 final 붙은 친구를 자동으로 @Autowired를 붙여준다.
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
@@ -109,14 +111,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.collect(Collectors.toList());
 		registrations.add(CustomOAuth2Provider.KAKAO.getBuilder("kakao")
 				.clientId(kakaoClientId)
-				.clientSecret(kakaoClientSecret)
-				.jwkSetUri("temp")
+				.clientSecret(kakaoClientSecret)				
 				.build()
 		);		
 		registrations.add(CustomOAuth2Provider.NAVER.getBuilder("naver")
 				.clientId(naverClientId)
-				.clientSecret(naverClientSecret)
-				.jwkSetUri("temp")
+				.clientSecret(naverClientSecret)				
 				.build()
 		);
 		return new InMemoryClientRegistrationRepository(registrations);
@@ -132,7 +132,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 					.build();
 		} else if ("facebook".equals(client)) {
 			OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("facebook");
-			return CommonOAuth2Provider.FACEBOOK.getBuilder(client).clientId(registration.getClientId())
+			return CommonOAuth2Provider.FACEBOOK.getBuilder(client)
+					.clientId(registration.getClientId())
 					.clientSecret(registration.getClientSecret())
 					.userInfoUri("https://graph.facebook.com/me?fields=id,name,email,link")
 					.scope("email")

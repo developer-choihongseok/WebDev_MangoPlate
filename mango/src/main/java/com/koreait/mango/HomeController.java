@@ -1,10 +1,13 @@
 package com.koreait.mango;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.koreait.mango.model.UserEntity;
+import com.koreait.mango.security.CurrentUser;
+import com.koreait.mango.security.model.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,9 +20,16 @@ public class HomeController {
 //	@GetMapping("/home")
 //	public void home() {}
 	
-	@GetMapping({"/", "/home"})
+	@GetMapping("/")
 	public String home() {
 		return "home";
+	}
+	
+	@GetMapping("/home")
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	public void home(@CurrentUser UserPrincipal userPrincipal) {
+		System.out.println("userPk : " + userPrincipal.getUserPk());
+		service.home();
 	}
 	
 	@GetMapping("/denied")
@@ -33,7 +43,9 @@ public class HomeController {
 	
 	@PostMapping("/join")
 	public String join(UserEntity param) { // param : 회원가입에서 필요한 4개의 정보를 받아 올 것이다.
-		service.join(param);
+		int result = service.mangoJoin(param);
+		System.out.println("result : " + result);
+		
 		return "redirect:/login";
 	}
 }

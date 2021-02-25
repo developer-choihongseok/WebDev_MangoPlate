@@ -20,17 +20,17 @@ spring:
       client:
         registration:
           google:
-            client-id: 88a081241234cfacbedef7018ac451316f3
-            client-secret: 88a081241234cfacbedef7018ac451316f3
+            client-id: 본인 google client-id
+            client-secret: 본인 google client-secret
           
           facebook:
-            client-id: 419794055964381
-            client-secret: c3d47da2bbed4060d827a6031caee649
+            client-id: 본인 facebook client-id
+            client-secret: 본인 facebook client-secret
 custom: 
   oauth2: 
     kakao: 
-      client-id: 88a081241234cfacbedef7018ac451316f3 
-      client-secret: jpXULoEzrasfawegsqYXlRLyyOHn2i60q 
+      client-id: 본인 kakao client-id 
+      client-secret: 본인 kakao client-secret 
     naver: 
       client-id: y2q7zvHFZQ7eejC9xoM0
       client-secret: mahnIRdkX4
@@ -38,6 +38,3 @@ custom:
 mybatis:
   mapper-locations: mybatis-mapper/**/*.xml
   type-aliases-package: com.koreait.mango.model
-
-
-
