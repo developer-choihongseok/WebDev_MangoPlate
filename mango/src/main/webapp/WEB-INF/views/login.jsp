@@ -16,8 +16,8 @@
 	</c:if>
 	
 	<div>
-		<form action="/login" method="post">
-			<div><input type="text" name="username" placeholder="아이디 입력"></div>
+		<form action="/login" method="post">	<!-- 컨트롤러에 login을 따로 만들 필요없이, 시큐리티가 인식을 해서 로그인처리를 한다. -->
+			<div><input type="text" name="username" placeholder="아이디 입력"></div>	<!-- username 을 id로 인식한다. -->
 			<div><input type="password" name="password" placeholder="비밀번호 입력"></div>
 			<button type="submit">로그인</button>
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

@@ -39,7 +39,7 @@ import com.koreait.mango.security.model.OAuth2UserInfoFactory;
 import com.koreait.mango.security.model.UserPrincipal;
 
 @Component
-public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {	// Controller 역할!!
 	
 	private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";
 	private static final String MISSING_USER_NAME_ATTRIBUTE_ERROR_CODE = "missing_user_name_attribute";
@@ -60,7 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	}
 
 	@Override
-	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {	// 중요!! -> 소셜로그인 요청 시, 시큐리티가 실행되는 메소드.
 		Assert.notNull(userRequest, "userRequest cannot be null");
 
 		UserInfoEndpoint uiep = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint();
@@ -84,12 +84,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 					null);
 			throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
 		}
-
+		
+		// HashMap으로 바꾸는 작업 -> 이유 : 값을 쉽게 받아오기 위해서.
 		RequestEntity<?> request = this.requestEntityConverter.convert(userRequest);
 		ResponseEntity<Map<String, Object>> response;
 		
 		try {
-			response = this.restOperations.exchange(request, PARAMETERIZED_RESPONSE_TYPE);
+			response = this.restOperations.exchange(request, PARAMETERIZED_RESPONSE_TYPE);	// 통신하는 부분.
 		} catch (OAuth2AuthorizationException ex) {
 			OAuth2Error oauth2Error = ex.getError();
 			StringBuilder errorDetails = new StringBuilder();
@@ -116,7 +117,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		authorities.add(new OAuth2UserAuthority(userAttributes));
 		OAuth2AccessToken token = userRequest.getAccessToken();
 		for (String authority : token.getScopes()) {
-			authorities.add(new SimpleGrantedAuthority("SCOPE_" + authority));
+			authorities.add(new SimpleGrantedAuthority("SCOPE_" + authority));	// 권한 추가(없어도 될 코드)
 		}
 
 		// 네이버 때문에 이러한 구조가 생겨남 ----------------------------------------- [end]
@@ -132,7 +133,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
 		}
 	}
-
+	
+	// 커스텀마이징 할 수 있는 부분.
 	private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
 		OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(
 				oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
@@ -141,10 +143,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
 			throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
 		}
-		 */		
-		UserEntity user = (UserEntity) myUserService.loadUserByUsername(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getId());
+		*/		
+		UserPrincipal user = (UserPrincipal) myUserService.loadUserByUsername(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getId());
 		
-		if (user == null) { // insert
+		if (user == null) { // insert(첫 로그인)
 			UserEntity p = new UserEntity();
 			p.setProvider(oAuth2UserInfo.getProvider());
 			p.setUid(oAuth2UserInfo.getId());
@@ -153,9 +155,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			p.setNm(oAuth2UserInfo.getName());
 			p.setAuth("ROLE_USER");
 			myUserService.join(p);
-			user = p;
+			
+			return UserPrincipal.create(p, oAuth2User.getAttributes());
 		}
-		return UserPrincipal.create(user, oAuth2User.getAttributes());
+		return user;
 	}
 
 	private Map<String, Object> getUserAttributes(ResponseEntity<Map<String, Object>> response) {

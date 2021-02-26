@@ -1,7 +1,6 @@
 package com.koreait.mango;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.koreait.mango.model.UserEntity;
@@ -15,15 +14,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HomeService {
 	
-	final HomeMapper mapper;
+	final HomeMapper mapper;	
 	final UserDetailsServiceImpl userDetailsService;
 	
 	@Autowired
     private IAuthenticationFacade authenticationFacade;
 	
-	public void home() {
-		Authentication authentication = authenticationFacade.getAuthentication();
-		UserPrincipal user = (UserPrincipal)authentication.getPrincipal();
+	// FORM LOGIN
+	public void home() {		
+		UserPrincipal user = authenticationFacade.getUserPrincipal();	// 항상 권한을 검사.
 		System.out.println("userPk(2) : " + user.getUserPk());
 	}
 	

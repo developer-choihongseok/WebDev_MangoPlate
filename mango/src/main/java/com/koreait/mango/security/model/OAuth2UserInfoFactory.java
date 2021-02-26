@@ -9,7 +9,7 @@ public class OAuth2UserInfoFactory {
 	
 	public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
 		if (registrationId.equalsIgnoreCase(SocialType.FACEBOOK.getValue())) {
-			return new FacebookOAuth2UserInfo(attributes);
+			return new FacebookOAuth2UserInfo(attributes);	// 넘어오는 구조가 다 다르기 때문에 분리를 시킨다.
 		}else if (registrationId.equalsIgnoreCase(SocialType.GOOGLE.getValue())) {
 			return new GoogleOAuth2UserInfo(attributes);
 		}else if (registrationId.equalsIgnoreCase(SocialType.NAVER.getValue())) {

@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	/* 기본적인 Security 설정[Start] */
 	
-	@Bean
+	@Bean	// 서버를 켰을 때, 딱 1번만 실행이 된다.
 	public PasswordEncoder passwordEncoder() {	// PasswordEncoder를 이용해서 자동으로 암호화 시켜준다.
 		return new BCryptPasswordEncoder();	// 암호화 떄 쓰는 라이브러리 객체. 암호화 하는 걸 나중에 바꾸고 싶을 때, 여기만 교체하면 된다.
 	}

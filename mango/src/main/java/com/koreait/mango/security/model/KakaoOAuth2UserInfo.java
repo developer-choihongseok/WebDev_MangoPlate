@@ -5,6 +5,7 @@ import java.util.Map;
 import com.koreait.mango.security.SocialType;
 
 public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
+	
 	public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }
@@ -17,7 +18,7 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getName() {
-        return (String) attributes.get("nickname");
+        return (String) attributes.get("nickname");	// 닉네임으로 넘어와서 nickname으로 바꿨다.
     }
 
     @Override
