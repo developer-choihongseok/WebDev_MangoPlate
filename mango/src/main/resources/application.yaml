@@ -3,11 +3,17 @@ server:
   port: 8090
 
 spring:
-  #JSP
-  mvc:
-    view:
-       prefix: /WEB-INF/views/
-       suffix: .jsp
+  thymeleaf:
+    prefix: classpath:views/
+    suffix: .html
+    mode: HTML5
+    cache: false
+    check-template-location: true
+       
+  devtools: 
+   livereload:  
+    enabled: true
+    
   #JDBC 설정
   datasource:
     url: jdbc:mysql://localhost:3307/mango?autoReconnect=true

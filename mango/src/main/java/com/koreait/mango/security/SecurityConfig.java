@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{	// 설정 파일이기 때문에 한번만 실행이 될 것이다.
-		http.csrf().disable();	// 제 3자가 공격하는걸 막아주는 역할을 한다?
+		http.csrf().disable();	// 제 3자가 공격하는걸 막아주는 역할을 한다.
 		
 		http.authorizeRequests()
 			.antMatchers("/user/**").hasRole("USER")	// 1차 주소가 user인 친구는 무조건 권한이 USER 이어야 한다.	USER = ROLE_USER
