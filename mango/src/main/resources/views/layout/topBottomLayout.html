@@ -3,8 +3,8 @@
 	xmlns:th="http://www.thymeleaf.org" 
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Mango</title>
-    <th:block th:replace="fragments/config"></th:block>
+	<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Mango</title>	<!-- $LAYOUT_TITLE : Mango, $CONTENT_TITLE : Home -->
+    <th:block th:replace="fragments/config :: head"></th:block>	<!-- :: head(fragment 이름)를 지우면 config 안에 있는 내용들이 전부 다 들어간다. 있으면 특정 파일을 불러서 들어간다. -->
     <link rel="stylesheet" href="/css/admin.css"/>
 </head>
 <body>	<!-- 핵심 부분! -->

@@ -35,7 +35,7 @@ public class HomeController {
 	
 	@GetMapping("/login")
 	public void login(@ModelAttribute("userEntity") UserEntity userEntity) {
-		userEntity.setUid("admin");	// login.html에 name의 value값이 들어간다.
+		userEntity.setUid("hn02305");	// login.html에 name의 value값이 들어간다.
 	}
 	
 	@GetMapping("/join")

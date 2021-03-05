@@ -26,7 +26,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.RequiredArgsConstructor;
@@ -65,20 +64,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	        .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
 	        .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
 	        .antMatchers("/naver").hasAuthority(NAVER.getRoleType())
-	        .anyRequest().authenticated()
-	        	.and()
+
+	        .and()
 		    .oauth2Login()
+		    	.loginPage("/login")
 		    	.userInfoEndpoint()
 		    		.userService(customOAuth2UserService)
 		    		.and()
 	    		.defaultSuccessUrl("/home")
-		        .failureUrl("/login")
-		        .and()
-		    .exceptionHandling() 
-				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+		        .failureUrl("/login");
 		
 		http.formLogin()
 			.loginPage("/login")
+			.usernameParameter("uid")	// 아이디로 넘어가는 것은 uid.
+            .passwordParameter("upw")	// 비밀번호로 넘어가는 것은 upw.
 			.defaultSuccessUrl("/home");
 //			.permitAll();
 		
