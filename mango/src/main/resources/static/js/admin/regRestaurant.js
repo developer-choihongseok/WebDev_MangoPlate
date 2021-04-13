@@ -1,3 +1,5 @@
+'use strict'
+
 const frm = document.querySelector('#frm')
 
 async function clkGetLatLng () {

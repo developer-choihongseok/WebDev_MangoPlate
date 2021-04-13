@@ -1,11 +1,16 @@
 package com.koreait.mango;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import com.koreait.mango.model.MenuEntity;
 import com.koreait.mango.model.UserEntity;
+import com.koreait.mango.model.security.UserPrincipal;
 
 @Mapper
 public interface HomeMapper {
-	int insertUser(UserEntity param);	// 회원가입
-	UserEntity selUser(UserEntity param);	// 로그인
+	int insertUser(UserEntity p);
+	UserPrincipal login(UserEntity p);
+	List<MenuEntity> selMenus(MenuEntity p);
 }

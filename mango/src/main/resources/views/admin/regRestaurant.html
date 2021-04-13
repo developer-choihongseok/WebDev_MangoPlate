@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ko"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
@@ -16,13 +15,12 @@
     </th:block>
 	
 	<!-- topBottomLayout.html에서 13번째줄에 <th:block layout:fragment>로 정의된 부분에만 들어간다. -->
-	<div layout:fragment="content">
-		
+	<div layout:fragment="content">		
 		<h1>가게 등록</h1>
 		<!-- form 태그에 중요한 것은 input, textarea, checkbox...등 -->
 		<form id="frm" th:action="@{/admin/regRestaurant}" th:object="${restaurantEntity}" method="post">
 			<div>
-				가게명 : <input type="text" th:field="*{restNm}" required>
+				가게명 : <input type="text" th:field="*{restNm}" required>	<!-- th:field="*{restNm}"를 적어주면 name과 value값이 자동으로 들어간다. -->
 			</div>
 			<div>
 				주소 : <input type="text" id="addrElem" th:field="*{addr}" required>
@@ -39,6 +37,5 @@
 				<input type="submit" value="등록">
 			</div>
 		</form>
-		
 	</div>
 </html>

@@ -1,8 +1,9 @@
-package com.koreait.mango.security.model;
+package com.koreait.mango.model.security;
 
 import java.util.Map;
 
 public abstract class OAuth2UserInfo {
+	
 	protected Map<String, Object> attributes;
 
     public OAuth2UserInfo(Map<String, Object> attributes) {

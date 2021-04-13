@@ -1,4 +1,4 @@
-package com.koreait.mango.security.model;
+package com.koreait.mango.model.security;
 
 import java.util.Map;
 
@@ -12,7 +12,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getId() {
-        return (String) attributes.get("sub");	// sub로 넘어오기 때문에, id를 sub로 바꿨다!
+        return (String) attributes.get("sub");
     }
 
     @Override

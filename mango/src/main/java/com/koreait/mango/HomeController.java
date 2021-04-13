@@ -15,18 +15,22 @@ import lombok.RequiredArgsConstructor;
 public class HomeController {
 	
 	final HomeService service;
+	final MyFileUtils myFileUtils;
 	
 //	@GetMapping("/home")
 //	public void home() {}
 	
 	@GetMapping("/")
 	public String index() {
+		String path = myFileUtils.getRealPath("ddd");
+		System.out.println(path);
+		
 		return "index";
 	}
 	
 	@GetMapping("/home")
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	public void home2() {
+	public void home() {
 		service.home();
 	}
 	
@@ -35,7 +39,7 @@ public class HomeController {
 	
 	@GetMapping("/login")
 	public void login(@ModelAttribute("userEntity") UserEntity userEntity) {
-		userEntity.setUid("hn02305");	// login.html에 name의 value값이 들어간다.
+		userEntity.setUid("mic");	// login.html에 name의 value값이 들어간다.
 	}
 	
 	@GetMapping("/join")

@@ -1,4 +1,4 @@
-package com.koreait.mango.security.model;
+package com.koreait.mango.model.security;
 
 import java.util.Map;
 
@@ -9,14 +9,14 @@ public class OAuth2UserInfoFactory {
 	
 	public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
 		if (registrationId.equalsIgnoreCase(SocialType.FACEBOOK.getValue())) {
-			return new FacebookOAuth2UserInfo(attributes);	// 넘어오는 구조가 다 다르기 때문에 분리를 시킨다.
-		}else if (registrationId.equalsIgnoreCase(SocialType.GOOGLE.getValue())) {
+			return new FacebookOAuth2UserInfo(attributes);
+		} else if (registrationId.equalsIgnoreCase(SocialType.GOOGLE.getValue())) {
 			return new GoogleOAuth2UserInfo(attributes);
-		}else if (registrationId.equalsIgnoreCase(SocialType.NAVER.getValue())) {
+		} else if (registrationId.equalsIgnoreCase(SocialType.NAVER.getValue())) {
 			return new NaverOAuth2UserInfo(attributes);
-		}else if (registrationId.equalsIgnoreCase(SocialType.KAKAO.getValue())) {
+		} else if (registrationId.equalsIgnoreCase(SocialType.KAKAO.getValue())) {
 			return new KakaoOAuth2UserInfo(attributes);
-		}else {
+		} else {
 			throw new OAuth2AuthenticationProcessingException(
 					"Sorry! Login with " + registrationId + " is not supported yet.");
 		}

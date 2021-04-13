@@ -1,22 +1,24 @@
-package com.koreait.mango.security.model;
+package com.koreait.mango.model.security;
 
 import java.util.Map;
 
 import com.koreait.mango.security.SocialType;
 
-public class NaverOAuth2UserInfo extends OAuth2UserInfo {
-	public NaverOAuth2UserInfo(Map<String, Object> attributes) {
+public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
+	
+	public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }
 	
 	@Override
-    public String getId() {
-        return (String) attributes.get("id");
+    public String getId() {		
+		int id = (int)attributes.get("id");
+        return Integer.toString(id);
     }
 
     @Override
     public String getName() {
-        return (String) attributes.get("name");
+        return (String) attributes.get("nickname");
     }
 
     @Override
@@ -31,6 +33,6 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo {
 
 	@Override
 	public String getProvider() {		
-		return SocialType.NAVER.getValue();
+		return SocialType.KAKAO.getValue();
 	}
 }

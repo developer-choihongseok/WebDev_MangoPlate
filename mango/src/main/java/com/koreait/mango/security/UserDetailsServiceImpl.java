@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.koreait.mango.HomeMapper;
 import com.koreait.mango.model.UserEntity;
-import com.koreait.mango.security.model.UserPrincipal;
+import com.koreait.mango.model.security.UserPrincipal;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
@@ -31,20 +31,18 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		UserEntity p = new UserEntity();
 		p.setProvider(provider);
 		p.setUid(uid);	
-		
-		UserEntity ue = mapper.selUser(p);
-		
+		UserPrincipal ue = mapper.login(p);	
 		if(ue == null) {
 			return null;
 		}
-		return UserPrincipal.create(ue);	// 로그인 성공.
+		return ue;
 	}
 	
 	//  소셜 로그인(암호화 할 필요가 없기 때문에 별도의 암호화를 해주지 X), FORM 로그인이 함께 쓰인다.
-	public int join(UserEntity param) {
-		if(param.getUpw() != null && !"".equals(param.getUpw())) {
-			param.setUpw(encoder.encode(param.getUpw()));	// 비밀번호 암호화를 할 때 이것을 꼭 써야한다!!
+	public int join(UserEntity p) {
+		if(p.getUpw() != null && !"".equals(p.getUpw())) {
+			p.setUpw(encoder.encode(p.getUpw())); // 비밀번호 암호화를 할 때 꼭 이것을 적어줘야한다.
 		}
-		return mapper.insertUser(param);
+		return mapper.insertUser(p);
 	}
 }

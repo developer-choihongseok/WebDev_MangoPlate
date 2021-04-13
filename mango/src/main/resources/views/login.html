@@ -7,6 +7,9 @@
 </head>
 <body>
 	<h1>로그인</h1>
+	<div th:if="${param.error}" class="alert alert-danger">    
+	    아이디와 비밀번호를 다시 확인해 주세요.
+	</div>
 	<div>
 		<form th:action="@{/login}" method="post" th:object="${userEntity}">	<!-- {} 안에 값을 그대로 찍을 때는 @{} 부분 빼도 가능. -->
 			<div>
@@ -33,9 +36,9 @@
 	<script> 
 		let socials = document.getElementsByClassName('btn_social')
 		for(let social of socials) { 
-			social.addEventListener('click', function(){	// 클릭 하는 순간, function()이 실행된다.
-				let socialType = this.getAttribute('data-social')	// this : 자기자신.
-				location.href="/oauth2/authorization/" + socialType // socialType = this.dataset.social
+			social.addEventListener('click', function(){ 
+				let socialType = this.getAttribute('data-social')
+				location.href="/oauth2/authorization/" + socialType 
 			}) 
 		} 
 	</script>

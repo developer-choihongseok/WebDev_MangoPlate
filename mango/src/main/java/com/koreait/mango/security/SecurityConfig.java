@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception{
-		web.ignoring().antMatchers("/res/**");	// antMatchers : "주소 매핑"을 의미. 즉, "시큐리티가 /res/** 의 모든 파일들을 무시하겠다"(관여하지 않겠다)는 의미.
+		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/image/**");	// antMatchers : "주소 매핑"을 의미. 즉, "시큐리티가 /res/** 의 모든 파일들을 무시하겠다"(관여하지 않겠다)는 의미.
 	}
 	
 	@Override

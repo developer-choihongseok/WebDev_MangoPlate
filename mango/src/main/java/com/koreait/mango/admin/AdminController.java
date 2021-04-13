@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.koreait.mango.Const;
 import com.koreait.mango.MyKey;
+import com.koreait.mango.model.MenuImgDTO;
 import com.koreait.mango.model.RestaurantEntity;
 
 @Controller
@@ -23,31 +23,40 @@ public class AdminController {
 	@PostMapping("/regRestaurant")
 	public String regRestaurantProc(RestaurantEntity p) {
 		service.insRestaurant(p);
-		return "redirect:/admin/detailRestaurant?restPk=" + p.getRestPk();
+		return "redirect:/admin/detailRestaurant?restPk=" + p.getRestPk(); 
 	}
 	
 	@PostMapping("/regMenuInfo")
-	public String regMenuInfo(@RequestParam int restPk, @RequestParam String[] menuNm, @RequestParam String[] menuPrice) {
-		System.out.println("restPk : " + restPk);
+	public String regMenuInfo(@RequestParam int restPk,	// detail.html에 name값과 같다.
+			@RequestParam String[] menuNm, 	// detail.html에 name값과 같다.
+			@RequestParam String[] menuPrice) {
 		
-		for(String nm : menuNm) {
-			System.out.println("nm : " + nm);
-		}
+		service.regMenuInfo(restPk, menuNm, menuPrice);
 		
 		return "redirect:/admin/detailRestaurant?restPk=" + restPk;
 	}
 	
+	@PostMapping("/regMenuImg")
+	public String regMenuImg(MenuImgDTO p) {
+		
+		System.out.println("restPk : " + p.getRestPk());
+		System.out.println("imgs.size() : " + p.getImgs().size());
+		service.regMenuImg(p);
+		return "redirect:/admin/detailRestaurant?restPk=" + p.getRestPk();
+	}
+	
 	@GetMapping("/regRestaurant")
-	public void regRestaurant(@ModelAttribute RestaurantEntity restaurant) {}
+	public void regRestaurant(@ModelAttribute(value="restaurant") RestaurantEntity restaurant) {	// 필드명 맞추기 위햐서 이렇게 적어줌.
+		restaurant.setRestNm("하하하");
+	}
 	
 	@GetMapping("/listRestaurant")
 	public void listRestaurant(Model model) {
-		model.addAttribute("data", service.selRestaurantList());
+		model.addAttribute(MyKey.DATA.getVal(), service.selRestaurantList());
 	}
 	
 	@GetMapping("/detailRestaurant")
-	public void detailRestaurant(RestaurantEntity p, Model model) {
-		model.addAttribute(MyKey.APP_KEY.getVal(), Const.KAKAO_JAVASCRIPT_KEY);
+	public void detailRestaurant(RestaurantEntity p, Model model) {		
 		model.addAttribute(MyKey.DATA.getVal(), service.detailRestaurant(p));
 	}
 }

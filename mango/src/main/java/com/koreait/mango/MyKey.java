@@ -1,9 +1,10 @@
 package com.koreait.mango;
 
-public enum MyKey {
-	
+public enum MyKey {	// Const와 같은 방식
+	MENUS("menus"),
 	APP_KEY("appKey"),
-	DATA("data");
+	DATA("data"),
+	LIST("list");
 	
 	private String val;
 	

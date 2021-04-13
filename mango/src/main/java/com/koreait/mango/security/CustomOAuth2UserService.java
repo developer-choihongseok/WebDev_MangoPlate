@@ -33,10 +33,9 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import com.koreait.mango.model.UserEntity;
-import com.koreait.mango.security.model.OAuth2UserInfo;
-import com.koreait.mango.security.model.OAuth2UserInfoFactory;
-import com.koreait.mango.security.model.UserPrincipal;
+import com.koreait.mango.model.security.OAuth2UserInfo;
+import com.koreait.mango.model.security.OAuth2UserInfoFactory;
+import com.koreait.mango.model.security.UserPrincipal;
 
 @Component
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {	// Controller 역할!!
@@ -147,7 +146,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {	// Contr
 		UserPrincipal user = (UserPrincipal) myUserService.loadUserByUsername(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getId());
 		
 		if (user == null) { // insert(첫 로그인)
-			UserEntity p = new UserEntity();
+			UserPrincipal p = new UserPrincipal();
 			p.setProvider(oAuth2UserInfo.getProvider());
 			p.setUid(oAuth2UserInfo.getId());
 			p.setEmail(oAuth2UserInfo.getEmail());
@@ -156,7 +155,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {	// Contr
 			p.setAuth("ROLE_USER");
 			myUserService.join(p);
 			
-			return UserPrincipal.create(p, oAuth2User.getAttributes());
+			p.setAttributes(oAuth2User.getAttributes());
+			
+			return p;
 		}
 		return user;
 	}

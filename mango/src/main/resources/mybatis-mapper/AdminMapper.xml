@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.koreait.mango.admin.AdminMapper">
 	<insert id="insRestaurant" useGeneratedKeys="true" keyProperty="restPk">
 		INSERT INTO t_restaurant
@@ -12,8 +11,9 @@
 	<insert id="insRestaurantMenuInfo">
 		INSERT INTO t_restaurant_menu_info
 		( restPk, menuNm, menuPrice )
+		VALUES
 		<foreach item="item" collection="list" separator=",">
-			( #{restPk}, #{item.menuNm}, #{item.menuPrice} )
+			( #{item.restPk}, #{item.menuNm}, #{item.menuPrice} )
 		</foreach>
 	</insert>
 	
@@ -21,27 +21,14 @@
 		INSERT INTO t_restaurant_menu_img
 		( restPk, img )
 		VALUES
-		( #{restPk}, #{img} )
+		<foreach item="item" collection="list" separator=",">
+			( #{item.restPk}, #{item.img} )
+		</foreach>
 	</insert>
 	
 	<select id="selRestaurantList" resultType="RestaurantEntity">
 		SELECT * FROM t_restaurant
 		ORDER BY restPk DESC
-	</select>
-	
-	<select id="selRestaurant" resultType="RestaurantEntity">
-		SELECT * FROM t_restaurant
-		WHERE restPk = #{restPk}
-	</select>
-	
-	<select id="selRestaurantMenuInfo" resultType="RestaurantMenuInfoEntity">
-		SELECT * FROM t_restaurant_menu_info
-		WHERE restPk = #{restPk}
-	</select>
-	
-	<select id="selRestaurantMenuImg" resultType="RestaurantMenuImgEntity">
-		SELECT * FROM t_restaurant_menu_img
-		WHERE restPk = #{restPk}
 	</select>
 	
 	<delete id="delRestaurantMenuInfo">

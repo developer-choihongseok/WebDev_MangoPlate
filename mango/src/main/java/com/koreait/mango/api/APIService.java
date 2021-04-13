@@ -30,32 +30,28 @@ public class APIService {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Const.KAKAO_SEARCH_ADDR_URL)
 		        .queryParam("query", addr);
 		*/
-		
+
 		// ********** REST 필수 코드[시작] ********** //
 		final String URL = Const.KAKAO_SEARCH_ADDR_URL + "?query=" + addr;
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> respEntity = restTemplate.exchange(URL
-																	, HttpMethod.GET
-																	, entity
-																	, String.class);
+		ResponseEntity<String> respEntity = restTemplate.exchange(URL, HttpMethod.GET, entity, String.class);
 		// ********** REST 필수 코드[끝] ********** //
 		
 		try {
-			ObjectMapper objectMapper = new ObjectMapper();	// JSON
-		    JsonNode jsonNode = objectMapper.readTree(respEntity.getBody());	// JSON
+			ObjectMapper objectMapper = new ObjectMapper();		    
+			JsonNode jsonNode = objectMapper.readTree(respEntity.getBody());
 		    
 		    int totalCount = objectMapper.treeToValue(jsonNode.path("meta").path("total_count"), Integer.class);
+		    
 		    if(totalCount > 0) {
 		    	double lat = objectMapper.treeToValue(jsonNode.path("documents").get(0).path("y"), Double.class);
 			    double lng = objectMapper.treeToValue(jsonNode.path("documents").get(0).path("x"), Double.class);
 			    
-			    // JSON형식을 위해서 Map 사용.
 			    Map<String, Double> result = new HashMap();
 			    result.put("lat", lat);
 			    result.put("lng", lng);
 			    return result;
-		    }
-		    
+		    }		    
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;

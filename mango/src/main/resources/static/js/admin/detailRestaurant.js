@@ -1,3 +1,5 @@
+'use strict'
+
 const menuInfoFrm = document.querySelector('#menuInfoFrm')
 
 let map = null

@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
-public class UserEntity {	// Entity - 테이블과 1:1 매칭
-	
+@Setter 
+public class UserEntity {
 	private int userPk;
 	private String provider;
 	private String uid;
@@ -17,3 +16,4 @@ public class UserEntity {	// Entity - 테이블과 1:1 매칭
 	private String auth;
 	private String regDt;
 }
+ 
